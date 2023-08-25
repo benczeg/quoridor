@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 public class User {
 
   @Id
-  public String userName;
+  public String username;
 
   public String password;
 }

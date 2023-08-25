@@ -13,13 +13,13 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void createUser(User user) {
-    if (!userRepository.existsByUsername(user.userName)) {
+    if (!userRepository.existsByUsername(user.username)) {
       userRepository.save(user);
     }
   }
 
   @Override
   public boolean loginUser(User user) {
-    return userRepository.existsByUsername(user.userName);
+    return userRepository.existsByUsername(user.username);
   }
 }
