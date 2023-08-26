@@ -1,21 +1,40 @@
 package com.bg.quoridor.security;
 
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import static org.springframework.security.config.Customizer.withDefaults;
+
+import com.bg.quoridor.services.JpaUserDetailsService;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
-
-
+@Configuration
 @EnableWebSecurity
-public class SecurityConfig  {
+@EnableMethodSecurity
+public class SecurityConfig {
 
-  //@Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    // TODO configure authentication manager
+  private final JpaUserDetailsService myUserDetailsService;
+
+  public SecurityConfig(JpaUserDetailsService myUserDetailsService) {
+    this.myUserDetailsService = myUserDetailsService;
   }
 
- // @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    // TODO configure web security
+  @Bean
+  SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    return http
+        .userDetailsService(myUserDetailsService)
+        .httpBasic(withDefaults())
+        .build();
   }
+
+  @Bean
+  PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
+
 }
+
