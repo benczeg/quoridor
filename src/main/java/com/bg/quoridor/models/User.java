@@ -22,6 +22,6 @@ public class User {
   private Long id;
   private String username;
   private String password;
-  private String roles;
+  private String roles = "USER";
 
 }
