@@ -29,7 +29,9 @@ public class SecurityConfig {
         .csrf((csrf) -> csrf.disable())
         .authorizeHttpRequests((authorizeHttpRequests) ->
             authorizeHttpRequests
-                .requestMatchers("/**").hasRole("USER")
+                .requestMatchers("/game").hasRole("USER")
+                .requestMatchers("/login").permitAll()
+                .requestMatchers("/register").permitAll()
         )
         .userDetailsService(myUserDetailsService)
         .httpBasic(withDefaults())
@@ -42,4 +44,3 @@ public class SecurityConfig {
   }
 
 }
-
