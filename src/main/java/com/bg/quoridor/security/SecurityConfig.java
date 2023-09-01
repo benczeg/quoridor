@@ -29,9 +29,10 @@ public class SecurityConfig {
         .csrf((csrf) -> csrf.disable())
         .authorizeHttpRequests((authorizeHttpRequests) ->
             authorizeHttpRequests
-                .requestMatchers("/game").hasRole("USER")
+                .requestMatchers("/check").hasRole("USER")
                 .requestMatchers("/login").permitAll()
                 .requestMatchers("/register").permitAll()
+                .anyRequest().authenticated()
         )
         .userDetailsService(myUserDetailsService)
         .httpBasic(withDefaults())

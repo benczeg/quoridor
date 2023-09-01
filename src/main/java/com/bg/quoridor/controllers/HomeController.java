@@ -1,6 +1,8 @@
 package com.bg.quoridor.controllers;
 
+import com.bg.quoridor.exceptions.InvalidPasswordException;
 import com.bg.quoridor.exceptions.UserAlreadyExistsException;
+import com.bg.quoridor.exceptions.UserNotExistsException;
 import com.bg.quoridor.models.User;
 import com.bg.quoridor.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,13 @@ public class HomeController {
     return "login";
   }
 
+  @PostMapping("login")
+  public String authenticateUser(User user)
+      throws UserNotExistsException, InvalidPasswordException {
+    userService.authenticateUser(user);
+    return "register";
+  }
+
   @GetMapping("register")
   public String registerPage() {
     return "register";
@@ -36,7 +45,6 @@ public class HomeController {
 
   @PostMapping("register")
   public String registerNewUser(User user) throws UserAlreadyExistsException {
-    System.out.println(user.getUsername());
     userService.addNewUser(user);
     return "register";
   }
